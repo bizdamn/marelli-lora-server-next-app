@@ -18,7 +18,7 @@ handler.post(async (req, res) => {
   const filteredEntries = await Entries.find({timestamp: { $gt: new Date(moment(req.body.end_date, "YYYY-MM-DD").add(-1, 'days').format("YYYY-MM-DD")), $lt: new Date(moment(req.body.end_date, "YYYY-MM-DD").add(0, 'days').format("YYYY-MM-DD")) },devEUI: req.body.deviceEUI  })
   await db.disconnect();
 
-    console.log(filteredEntries)
+  // console.log(filteredEntries)
 
   res.send(filteredEntries);
 

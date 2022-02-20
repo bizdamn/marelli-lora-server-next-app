@@ -52,20 +52,41 @@ export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
   const [humidity, setHumidity] = useState([]);
   const [current_humidity_calibration, setCurrent_humidity_calibration] = useState(deviceCalibration[0].humidity_calibration);
   const [current_temprature_calibration, setCurrent_temprature_calibration] = useState(deviceCalibration[0].temprature_calibration);
+  
+  
+  
+  const [tempMinArray, setTempMinArray] = useState([]);
+  const [tempMaxArray, setTempMaxArray] = useState([]);
+  const [tempAvgArray, setTempAvgArray] = useState([]);
+  
+  const [humMinArray, setHumidityMinArray] = useState([]);
+  const [humMaxArray, setHumidityMaxArray] = useState([]);
+  const [humAvgArray, setHumidityAvgArray] = useState([]);
 
-    let minArray = [];
-    let maxArray = [];
-    let avgArray = [];
 
-  function filterfunc(e) {
-    let temperatureArr = getHour(e.temprature, e.timestamp);
+
+  function filterTempfunc(e) {
+    let temperatureArr = getTempHour(e.temprature, e.timestamp);
     return temperatureArr
   }
-
-  function getHour(temp, time) {
+  function getTempHour(temp, time) {
     let hr = moment(time, "YYYY-MM-DDTHH:mm:ss").format("HH");
     return { time: parseFloat(hr), temperature: parseFloat(temp) }
   }
+
+
+  function filterHumfunc(e) {
+    let humidityArr = getHumHour(e.humidity, e.timestamp);
+    return humidityArr
+  }
+  function getHumHour(hum, time) {
+    let hr = moment(time, "YYYY-MM-DDTHH:mm:ss").format("HH");
+    return { time: parseFloat(hr), humidity: parseFloat(hum) }
+  }
+
+
+
+
   async function tempratureFilter() {
     closeSnackbar()
     try {
@@ -75,19 +96,19 @@ export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
         deviceEUI: id
       });
 
-      let tempArr = data.map(filterfunc);
-      let hourlyData = GetHourlyData(tempArr);
-      console.log(hourlyData)
-      enqueueSnackbar('Filtered', { variant: 'success' });  //----------------------------------------------------------
+      let tempArr = data.map(filterTempfunc);
+      let humArr = data.map(filterHumfunc);
+      await GetTempHourlyData(tempArr);
+      await GetHumHourlyData(humArr);
+
     }
     catch (e) {
       console.log(e)
     }
   }
 
-  async function GetHourlyData(e) {
+  async function GetTempHourlyData(e) {
     let ret = [];
-
     let hcounter = 0
     for (; hcounter < 24; hcounter++) {
       // console.log('hcounter ' + hcounter);
@@ -99,7 +120,6 @@ export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
         // console.log(hdata);
         return hdata;
       });
-
 
       if (hrdata[hcounter].length <= 0) {
         ret.push({
@@ -115,16 +135,56 @@ export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
       });
       // console.log(hrdata);
     }
-    // console.log(ret)
+    ret.map((e) => {
+      tempMinArray.push(e.min)
+      tempMaxArray.push(e.max)
+      tempAvgArray.push(e.avg)
+    })
+    enqueueSnackbar('Filtered', { variant: 'success' });
+    console.log(tempMinArray)
+    console.log(tempMaxArray)
+    console.log(tempAvgArray)
+    return ret;
+  }
 
-   ret.map((e)=>{
-    minArray.push(e.min)
-    maxArray.push(e.max)
-    avgArray.push(e.avg)
-   }) 
-   console.log(minArray)
-   console.log(maxArray)
-   console.log(avgArray)
+  async function GetHumHourlyData(e) {
+    let ret = [];
+    let hcounter = 0
+    for (; hcounter < 24; hcounter++) {
+      // console.log('hcounter ' + hcounter);
+      let hdata = [];
+      let hrdata = e.map(({ humidity, time }) => {
+        if (time == hcounter) {
+          hdata.push(humidity);
+        }
+        // console.log(hdata);
+        return hdata;
+      });
+
+      if (hrdata[hcounter].length <= 0) {
+        ret.push({
+          hour: hcounter, min: null,
+          max: null, avg: null
+        });
+        continue;
+      }
+      // console.log('hrdata[hcounter] = ' + hrdata[hcounter])
+      ret.push({
+        hour: hcounter, min: Math.min(...hrdata[hcounter]),
+        max: Math.max(...hrdata[hcounter]), avg: avg(hrdata[hcounter])
+      });
+      // console.log(hrdata);
+    }
+    ret.map((e) => {
+     
+      humMinArray.push(e.min)
+      humMaxArray.push(e.max)
+      humAvgArray.push(e.avg)
+    })
+    enqueueSnackbar('Filtered', { variant: 'success' });
+    console.log(humMinArray)
+    console.log(humMaxArray)
+    console.log(humAvgArray)
     return ret;
   }
 
@@ -160,25 +220,29 @@ export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
     labels: ["12 AM", "1 AM", "2 AM", "3 AM", "4 AM", "5 AM", "6 AM", "7 AM", "8 AM", "9 AM", "10 AM", "11 AM", "12 PM", "1PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM", "9 PM", "10 PM", "12 AM"],
     datasets: [
       {
-        label: "Humidity",
-        data: humidity,
-        backgroundColor: [
-          "rgba(255, 99, 132, 0.2)",
-          "rgba(54, 162, 235, 0.2)",
-          "rgba(255, 206, 86, 0.2)",
-          "rgba(75, 192, 192, 0.2)",
-          "rgba(153, 102, 255, 0.2)",
-          "rgba(255, 159, 64, 0.2)",
-        ],
+        label: "Min Humidity",
+        data: humMinArray,
         borderColor: [
-          "rgba(255, 99, 132, 1)",
-          "rgba(54, 162, 235, 1)",
-          "rgba(255, 206, 86, 1)",
-          "rgba(75, 192, 192, 1)",
-          "rgba(153, 102, 255, 1)",
-          "rgba(255, 159, 64, 1)",
+          "red",
         ],
         borderWidth: 1,
+      },
+      {
+        label: "Max Humidity",
+        data: humMaxArray,
+        borderWidth: 1,
+        borderColor: [
+          "blue",
+        ],
+
+      },
+      {
+        label: "Average Humidity",
+        data: humAvgArray,
+        borderWidth: 1,
+        borderColor: [
+          "black",
+        ],
       },
     ],
   };
@@ -192,25 +256,29 @@ export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
     labels: ["12 AM", "1 AM", "2 AM", "3 AM", "4 AM", "5 AM", "6 AM", "7 AM", "8 AM", "9 AM", "10 AM", "11 AM", "12 PM", "1PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM", "9 PM", "10 PM", "12 AM"],
     datasets: [
       {
-        label: "Temprature",
-        data: minArray,
-        backgroundColor: [
-          "rgba(255, 99, 132, 0.2)",
-          "rgba(54, 162, 235, 0.2)",
-          "rgba(255, 206, 86, 0.2)",
-          "rgba(75, 192, 192, 0.2)",
-          "rgba(153, 102, 255, 0.2)",
-          "rgba(255, 159, 64, 0.2)",
-        ],
+        label: "Min Temprature",
+        data: tempMinArray,
         borderColor: [
-          "rgba(255, 99, 132, 1)",
-          "rgba(54, 162, 235, 1)",
-          "rgba(255, 206, 86, 1)",
-          "rgba(75, 192, 192, 1)",
-          "rgba(153, 102, 255, 1)",
-          "rgba(255, 159, 64, 1)",
+          "red",
         ],
         borderWidth: 1,
+      },
+      {
+        label: "Max Temprature",
+        data: tempMaxArray,
+        borderWidth: 1,
+        borderColor: [
+          "blue",
+        ],
+
+      },
+      {
+        label: "Average Temprature",
+        data: tempAvgArray,
+        borderWidth: 1,
+        borderColor: [
+          "black",
+        ],
       },
     ],
   };
