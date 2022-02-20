@@ -53,8 +53,6 @@ export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
   const [current_humidity_calibration, setCurrent_humidity_calibration] = useState(deviceCalibration[0].humidity_calibration);
   const [current_temprature_calibration, setCurrent_temprature_calibration] = useState(deviceCalibration[0].temprature_calibration);
   
-  
-  
   const [tempMinArray, setTempMinArray] = useState([]);
   const [tempMaxArray, setTempMaxArray] = useState([]);
   const [tempAvgArray, setTempAvgArray] = useState([]);
@@ -62,7 +60,6 @@ export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
   const [humMinArray, setHumidityMinArray] = useState([]);
   const [humMaxArray, setHumidityMaxArray] = useState([]);
   const [humAvgArray, setHumidityAvgArray] = useState([]);
-
 
 
   function filterTempfunc(e) {
