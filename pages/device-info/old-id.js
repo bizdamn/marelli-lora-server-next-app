@@ -43,7 +43,7 @@ export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
   }, [userInfo, router]);
   useEffect(() => {
     tempratureFilter()
-  }, []);
+  },[]);
   const currentDate = new Date()
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [startDate, SetStartDate] = useState(moment(currentDate, "YYYY-MM-DD").add(0, 'days').format("YYYY-MM-DD"));
@@ -53,19 +53,8 @@ export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
   const [current_humidity_calibration, setCurrent_humidity_calibration] = useState(deviceCalibration[0].humidity_calibration);
   const [current_temprature_calibration, setCurrent_temprature_calibration] = useState(deviceCalibration[0].temprature_calibration);
 
-    let minArray = [];
-    let maxArray = [];
-    let avgArray = [];
 
-  function filterfunc(e) {
-    let temperatureArr = getHour(e.temprature, e.timestamp);
-    return temperatureArr
-  }
 
-  function getHour(temp, time) {
-    let hr = moment(time, "YYYY-MM-DDTHH:mm:ss").format("HH");
-    return { time: parseFloat(hr), temperature: parseFloat(temp) }
-  }
   async function tempratureFilter() {
     closeSnackbar()
     try {
@@ -73,71 +62,19 @@ export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
         start_date: startDate,
         end_date: endDate,
         deviceEUI: id
-      });
-
-      let tempArr = data.map(filterfunc);
-      let hourlyData = GetHourlyData(tempArr);
-      console.log(hourlyData)
-      enqueueSnackbar('Filtered', { variant: 'success' });  //----------------------------------------------------------
+      })
+      console.log(data)
+      setTemprature(data.temprature)
+      setHumidity(data.humidity)
+      // console.log(temprature)
+      // console.log(humidity)
+      enqueueSnackbar('Filtered', { variant: 'success' });
     }
     catch (e) {
       console.log(e)
     }
   }
 
-  async function GetHourlyData(e) {
-    let ret = [];
-
-    let hcounter = 0
-    for (; hcounter < 24; hcounter++) {
-      // console.log('hcounter ' + hcounter);
-      let hdata = [];
-      let hrdata = e.map(({ temperature, time }) => {
-        if (time == hcounter) {
-          hdata.push(temperature);
-        }
-        // console.log(hdata);
-        return hdata;
-      });
-
-
-      if (hrdata[hcounter].length <= 0) {
-        ret.push({
-          hour: hcounter, min: null,
-          max: null, avg: null
-        });
-        continue;
-      }
-      // console.log('hrdata[hcounter] = ' + hrdata[hcounter])
-      ret.push({
-        hour: hcounter, min: Math.min(...hrdata[hcounter]),
-        max: Math.max(...hrdata[hcounter]), avg: avg(hrdata[hcounter])
-      });
-      // console.log(hrdata);
-    }
-    // console.log(ret)
-
-   ret.map((e)=>{
-    minArray.push(e.min)
-    maxArray.push(e.max)
-    avgArray.push(e.avg)
-   }) 
-   console.log(minArray)
-   console.log(maxArray)
-   console.log(avgArray)
-    return ret;
-  }
-
-
-
-
-  function avg(arr) {
-    var sum = 0;
-    arr.forEach(function (item, idx) {
-      sum += item;
-    });
-    return sum / arr.length;
-  }
 
   async function updateCallibration() {
     closeSnackbar();
@@ -193,7 +130,7 @@ export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
     datasets: [
       {
         label: "Temprature",
-        data: minArray,
+        data: temprature,
         backgroundColor: [
           "rgba(255, 99, 132, 0.2)",
           "rgba(54, 162, 235, 0.2)",

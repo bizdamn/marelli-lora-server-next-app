@@ -35,8 +35,8 @@ export default function Payload({entries}) {
               <tr key={element.deviceName} >
                 <td>{element.deviceName}</td>
                 <td>{element.devEUI}</td>
-                <td>{element.humidity}</td>
-                <td>{element.temprature}</td>
+                <td>{parseFloat(element.humidity).toFixed(2)}</td>
+                <td>{parseFloat(element.temprature).toFixed(2)}</td>
                 <td>{formattted_time}</td>
               </tr>
             );
