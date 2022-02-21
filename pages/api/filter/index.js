@@ -7,19 +7,11 @@ const handler = nc();
 
 
 handler.post(async (req, res) => {
-  // console.log(req.body.deviceEUI)
-  console.log(req.body.start_date)
-  console.log(req.body.end_date)
-
-  let finalTempArray=[]
-  let finalHumArray=[]
+  // console.log(new Date(moment(req.body.start_date, "YYYY-MM-DDT00:00:00.000Z")))
+  // console.log(new Date(moment(req.body.start_date, "YYYY-MM-DDT00:00:00.000Z")).add(1, 'days'))
   await db.connect();
-
-  const filteredEntries = await Entries.find({timestamp: { $gt: new Date(moment(req.body.end_date, "YYYY-MM-DD").add(-1, 'days').format("YYYY-MM-DD")), $lt: new Date(moment(req.body.end_date, "YYYY-MM-DD").add(0, 'days').format("YYYY-MM-DD")) },devEUI: req.body.deviceEUI  })
+  const filteredEntries = await Entries.find({timestamp: { $gt: new Date(moment(req.body.start_date, "YYYY-MM-DD")), $lt: new Date(moment(req.body.start_date, "YYYY-MM-DD")).add(1, 'days') },devEUI: req.body.deviceEUI  })
   await db.disconnect();
-
-  // console.log(filteredEntries)
-
   res.send(filteredEntries);
 
 });

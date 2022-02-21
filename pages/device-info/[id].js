@@ -26,7 +26,6 @@ import { useSnackbar } from 'notistack';
 // components
 import DeviceInfo from "../../components/Data/DeviceInfo";
 import DatePickerComponent from "../../components/DatePickerComponent/DatePickerComponent";
-// import MonthPickerComponent from "../../components/DatePickerComponent/MonthPickerComponent";
 import Button from "@mui/material/Button";
 import { useRouter } from 'next/router'
 export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
@@ -46,8 +45,8 @@ export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
   }, []);
   const currentDate = new Date()
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-  const [startDate, SetStartDate] = useState(moment(currentDate, "YYYY-MM-DD").add(0, 'days').format("YYYY-MM-DD"));
-  const [endDate, SetEndDate] = useState(moment(currentDate, "YYYY-MM-DD").add(1, 'days').format("YYYY-MM-DD"));
+  const [startDate, SetStartDate] = useState(moment(currentDate, "YYYY-MM-DDT00:00:00.000Z"));
+  const [endDate, SetEndDate] = useState(moment(currentDate, "YYYY-MM-DDT00:00:00.000Z").add(1, 'days'));
   const [temprature, setTemprature] = useState([]);
   const [humidity, setHumidity] = useState([]);
   const [current_humidity_calibration, setCurrent_humidity_calibration] = useState(deviceCalibration[0].humidity_calibration);
@@ -57,9 +56,9 @@ export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
   const [tempMaxArray, setTempMaxArray] = useState([]);
   const [tempAvgArray, setTempAvgArray] = useState([]);
   
-  const [humMinArray, setHumidityMinArray] = useState([]);
-  const [humMaxArray, setHumidityMaxArray] = useState([]);
-  const [humAvgArray, setHumidityAvgArray] = useState([]);
+  const [humMinArray, setHumMinArray] = useState([]);
+  const [humMaxArray, setHumMaxArray] = useState([]);
+  const [humAvgArray, setHumAvgArray] = useState([]);
 
 
   function filterTempfunc(e) {
@@ -133,9 +132,9 @@ export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
       // console.log(hrdata);
     }
     ret.map((e) => {
-      tempMinArray.push(e.min)
-      tempMaxArray.push(e.max)
-      tempAvgArray.push(e.avg)
+      setTempMinArray(oldArray => [...oldArray,e.min ])
+      setTempMaxArray(oldArray => [...oldArray,e.max ])
+      setTempAvgArray(oldArray => [...oldArray,e.avg ])
     })
     enqueueSnackbar('Filtered', { variant: 'success' });
     console.log(tempMinArray)
@@ -154,7 +153,6 @@ export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
         if (time == hcounter) {
           hdata.push(humidity);
         }
-        // console.log(hdata);
         return hdata;
       });
 
@@ -170,15 +168,13 @@ export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
         hour: hcounter, min: Math.min(...hrdata[hcounter]),
         max: Math.max(...hrdata[hcounter]), avg: avg(hrdata[hcounter])
       });
-      // console.log(hrdata);
+     
     }
     ret.map((e) => {
-     
-      humMinArray.push(e.min)
-      humMaxArray.push(e.max)
-      humAvgArray.push(e.avg)
+      setHumMinArray(oldArray => [...oldArray,e.min ])
+      setHumMaxArray(oldArray => [...oldArray,e.max ])
+      setHumAvgArray(oldArray => [...oldArray,e.avg ])
     })
-    enqueueSnackbar('Filtered', { variant: 'success' });
     console.log(humMinArray)
     console.log(humMaxArray)
     console.log(humAvgArray)
@@ -298,12 +294,6 @@ export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
         <Grid item lg={7} xs={12}>
           <Stack direction='row'>
 
-            {/* <MonthPickerComponent
-              startDate={startDate}
-              SetStartDate={SetStartDate}
-              endDate={endDate}
-              SetEndDate={SetEndDate}
-            /> */}
             <DatePickerComponent
               startDate={startDate}
               SetStartDate={SetStartDate}

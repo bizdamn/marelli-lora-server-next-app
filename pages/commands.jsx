@@ -28,7 +28,6 @@ export default function Payload() {
             await setHumBuzzerStatus(data.FF01_I05_status);
         }
         fetch();
-        console.log('useEffect Run')
 
     }, [userInfo, router]);
 
@@ -86,8 +85,8 @@ export default function Payload() {
 
 
 
-                console.log(data)
-                console.log('On I04 command To Chiprstack')
+                // console.log(data)
+                // console.log('On I04 command To Chiprstack')
                 if (data.fCnt) {
                     const downlinkTime = new Date()
                     async function run() {
@@ -148,8 +147,8 @@ export default function Payload() {
         )
             .then((response) => response.json())
             .then((data) => {
-                console.log(data)
-                console.log('Off I04 command To Chiprstack')
+                // console.log(data)
+                // console.log('Off I04 command To Chiprstack')
                 if (data.fCnt) {
                     async function run() {
                         try {
@@ -205,8 +204,8 @@ export default function Payload() {
         )
             .then((response) => response.json())
             .then((data) => {
-                console.log(data)
-                console.log('On I05 command To Chiprstack')
+                // console.log(data)
+                // console.log('On I05 command To Chiprstack')
                 if (data.fCnt) {
 
                     async function run() {
@@ -269,8 +268,8 @@ export default function Payload() {
         )
             .then((response) => response.json())
             .then((data) => {
-                console.log(data)
-                console.log('Off I05 command To Chiprstack')
+                // console.log(data)
+                // console.log('Off I05 command To Chiprstack')
                 if (data.fCnt) {
                     async function run() {
                         try {
@@ -295,8 +294,8 @@ export default function Payload() {
     }
 
 
-    console.log('IO4' + ' ' + tempBuzzerStatus)
-    console.log('IO5' + ' ' + humBuzzerStatus)
+    // console.log('IO4' + ' ' + tempBuzzerStatus)
+    // console.log('IO5' + ' ' + humBuzzerStatus)
 
     return (
         <Layout>
