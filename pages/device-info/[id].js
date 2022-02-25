@@ -23,32 +23,28 @@ import { Line } from "react-chartjs-2";
 import Layout from "../../Layout/Layout"
 import { DataStore } from '../../utils/DataStore';
 import { useSnackbar } from 'notistack';
-// components
 import DeviceInfo from "../../components/Data/DeviceInfo";
 import DatePickerComponent from "../../components/DatePickerComponent/DatePickerComponent";
 import Button from "@mui/material/Button";
 import { useRouter } from 'next/router'
 export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
-
   const router = useRouter()
   const { id } = router.query
   const { state } = useContext(DataStore);
   const { userInfo } = state;
-
+  const currentDate = new Date()
+  currentDate.setHours(0,0,0);
   useEffect(() => {
     if (!userInfo) {
       router.push('/login');
     }
-  }, [userInfo, router]);
-  useEffect(() => {
     tempratureFilter()
-  }, []);
-  const currentDate = new Date()
+  }, [userInfo, router]);
+
+
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-  const [startDate, SetStartDate] = useState(moment(currentDate, "YYYY-MM-DDT00:00:00.000Z"));
-  const [endDate, SetEndDate] = useState(moment(currentDate, "YYYY-MM-DDT00:00:00.000Z").add(1, 'days'));
-  const [temprature, setTemprature] = useState([]);
-  const [humidity, setHumidity] = useState([]);
+  const [startDate, SetStartDate] = useState(moment(currentDate, "YYYY-MM-DDTHH:mm:ss").add(5, 'hours').add(30, 'minutes').format("YYYY-MM-DDTHH:mm:ss"));
+  const [endDate, SetEndDate] = useState(moment(currentDate, "YYYY-MM-DDTHH:mm:ss").add(1, 'days').add(5, 'hours').add(30, 'minutes').format("YYYY-MM-DDTHH:mm:ss"));
   const [current_humidity_calibration, setCurrent_humidity_calibration] = useState(deviceCalibration[0].humidity_calibration);
   const [current_temprature_calibration, setCurrent_temprature_calibration] = useState(deviceCalibration[0].temprature_calibration);
   
@@ -81,8 +77,6 @@ export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
   }
 
 
-
-
   async function tempratureFilter() {
     closeSnackbar()
     try {
@@ -91,6 +85,7 @@ export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
         end_date: endDate,
         deviceEUI: id
       });
+      // console.log(data);
 
       let tempArr = data.map(filterTempfunc);
       let humArr = data.map(filterHumfunc);
@@ -137,9 +132,9 @@ export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
       setTempAvgArray(oldArray => [...oldArray,e.avg ])
     })
     enqueueSnackbar('Filtered', { variant: 'success' });
-    console.log(tempMinArray)
-    console.log(tempMaxArray)
-    console.log(tempAvgArray)
+    // console.log(tempMinArray)
+    // console.log(tempMaxArray)
+    // console.log(tempAvgArray)
     return ret;
   }
 
@@ -175,9 +170,9 @@ export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
       setHumMaxArray(oldArray => [...oldArray,e.max ])
       setHumAvgArray(oldArray => [...oldArray,e.avg ])
     })
-    console.log(humMinArray)
-    console.log(humMaxArray)
-    console.log(humAvgArray)
+    // console.log(humMinArray)
+    // console.log(humMaxArray)
+    // console.log(humAvgArray)
     return ret;
   }
 
@@ -279,6 +274,10 @@ export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
   const Tempratureoptions = {
     scales: {},
   };
+
+
+  console.log(startDate)
+  console.log(endDate)
   return (
     <Layout>
       <Grid style={{ backgroundColor: '#9d2eff', color: 'white' }}>
