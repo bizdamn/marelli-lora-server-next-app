@@ -33,7 +33,7 @@ export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
   const { state } = useContext(DataStore);
   const { userInfo } = state;
   const currentDate = new Date()
-  currentDate.setHours(0,0,0);
+  currentDate.setHours(0, 0, 0);
   useEffect(() => {
     if (!userInfo) {
       router.push('/login');
@@ -43,18 +43,19 @@ export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
 
 
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-  const [startDate, SetStartDate] = useState(moment(currentDate, "YYYY-MM-DDTHH:mm:ss").add(5, 'hours').add(30, 'minutes').format("YYYY-MM-DDTHH:mm:ss"));
-  const [endDate, SetEndDate] = useState(moment(currentDate, "YYYY-MM-DDTHH:mm:ss").add(1, 'days').add(5, 'hours').add(30, 'minutes').format("YYYY-MM-DDTHH:mm:ss"));
+  const [startDate, SetStartDate] = useState(moment(currentDate, "YYYY-MM-DDTHH:mm:ss").format("YYYY-MM-DD"));
+  const [endDate, SetEndDate] = useState(moment(currentDate, "YYYY-MM-DDTHH:mm:ss").add(1, 'days').format("YYYY-MM-DD"));
   const [current_humidity_calibration, setCurrent_humidity_calibration] = useState(deviceCalibration[0].humidity_calibration);
   const [current_temprature_calibration, setCurrent_temprature_calibration] = useState(deviceCalibration[0].temprature_calibration);
-  
+
   const [tempMinArray, setTempMinArray] = useState([]);
   const [tempMaxArray, setTempMaxArray] = useState([]);
   const [tempAvgArray, setTempAvgArray] = useState([]);
-  
+
   const [humMinArray, setHumMinArray] = useState([]);
   const [humMaxArray, setHumMaxArray] = useState([]);
   const [humAvgArray, setHumAvgArray] = useState([]);
+
 
 
   function filterTempfunc(e) {
@@ -80,17 +81,17 @@ export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
   async function tempratureFilter() {
     closeSnackbar()
     try {
-      const { data } = await axios.post(`/api/filter`, {
+      const { data}  = await axios.post('http://127.0.0.1:1240/', {
         start_date: startDate,
         end_date: endDate,
         deviceEUI: id
       });
-      // console.log(data);
+      console.log(data);
 
-      let tempArr = data.map(filterTempfunc);
-      let humArr = data.map(filterHumfunc);
-      await GetTempHourlyData(tempArr);
-      await GetHumHourlyData(humArr);
+      // let tempArr =data.value.map(filterTempfunc);
+      // let humArr = data.value.map(filterHumfunc);
+      await GetTempHourlyData(data.tempArr);
+      await GetHumHourlyData(data.humArr);
 
     }
     catch (e) {
@@ -127,9 +128,9 @@ export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
       // console.log(hrdata);
     }
     ret.map((e) => {
-      setTempMinArray(oldArray => [...oldArray,e.min ])
-      setTempMaxArray(oldArray => [...oldArray,e.max ])
-      setTempAvgArray(oldArray => [...oldArray,e.avg ])
+      setTempMinArray(oldArray => [...oldArray, e.min])
+      setTempMaxArray(oldArray => [...oldArray, e.max])
+      setTempAvgArray(oldArray => [...oldArray, e.avg])
     })
     enqueueSnackbar('Filtered', { variant: 'success' });
     // console.log(tempMinArray)
@@ -163,12 +164,12 @@ export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
         hour: hcounter, min: Math.min(...hrdata[hcounter]),
         max: Math.max(...hrdata[hcounter]), avg: avg(hrdata[hcounter])
       });
-     
+
     }
     ret.map((e) => {
-      setHumMinArray(oldArray => [...oldArray,e.min ])
-      setHumMaxArray(oldArray => [...oldArray,e.max ])
-      setHumAvgArray(oldArray => [...oldArray,e.avg ])
+      setHumMinArray(oldArray => [...oldArray, e.min])
+      setHumMaxArray(oldArray => [...oldArray, e.max])
+      setHumAvgArray(oldArray => [...oldArray, e.avg])
     })
     // console.log(humMinArray)
     // console.log(humMaxArray)
@@ -276,8 +277,6 @@ export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
   };
 
 
-  console.log(startDate)
-  console.log(endDate)
   return (
     <Layout>
       <Grid style={{ backgroundColor: '#9d2eff', color: 'white' }}>
