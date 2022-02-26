@@ -67,6 +67,7 @@ export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
     return { time: parseFloat(hr), temperature: parseFloat(temp) }
   }
 
+  
 
   function filterHumfunc(e) {
     let humidityArr = getHumHour(e.humidity, e.timestamp);
@@ -81,7 +82,7 @@ export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
   async function tempratureFilter() {
     closeSnackbar()
     try {
-      const { data}  = await axios.post('http://127.0.0.1:1240/', {
+      const { data}  = await axios.post('https://temp-hum-chart-marelli.igscsi4server.com/', {
         start_date: startDate,
         end_date: endDate,
         deviceEUI: id

@@ -10,9 +10,9 @@ export default function DatePickerComponent({ startDate, SetStartDate, endDate, 
 
   const [pickerValue, setPickerValue] = useState(moment(startDate, "YYYY-MM-DD").add(0, 'days').format("YYYY-MM-DDTHH:mm:ss"))
   function setValue(value) {
-    setPickerValue(moment(value, "YYYY-MM-DD").format("YYYY-MM-DDTHH:mm:ss"))
-    SetStartDate(moment(value, "YYYY-MM-DD").add(0, 'days').format("YYYY-MM-DDTHH:mm:ss"))
-    SetEndDate(moment(value, "YYYY-MM-DD").add(1, 'days').format("YYYY-MM-DDTHH:mm:ss"))
+    setPickerValue(moment(value, "YYYY-MM-DD").format("YYYY-MM-DD"))
+    SetStartDate(moment(value, "YYYY-MM-DD").add(0, 'days').format("YYYY-MM-DD"))
+    SetEndDate(moment(value, "YYYY-MM-DD").add(1, 'days').format("YYYY-MM-DD"))
   }
 
 
