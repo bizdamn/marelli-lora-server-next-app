@@ -23,6 +23,7 @@ export default function DatePickerComponent({ startDate, SetStartDate, endDate, 
           label="Choose a date"
           views={["year", "month", "day"]}
           format="DD-MM-YYYY"
+          maxDate = {new Date()}
           value={pickerValue}
           onChange={(newValue) => {
             setValue(moment(newValue).format("YYYY-MM-DDTHH:mm:ss"))

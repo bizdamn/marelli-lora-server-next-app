@@ -86,7 +86,7 @@ export default function LiveData({ }) {
                       <div style={{ position: 'relative', left: '-5.4rem' }}>
                         <TempGauge value={lastEntry79f9[0].temprature} />
                       </div>
-                      <Typography fontWeight={800} variant="h5" align="center" >{parseFloat(lastEntry79f9[0].temprature).toFixed(1)} °C</Typography>
+                      <Typography fontWeight={800} variant="h5" align="center" >{parseFloat(lastEntry79f9[0].temprature).toFixed(2)} °C</Typography>
                     </>) : (<>
                       <div style={{ position: 'relative', left: '-5.4rem' }}>
                         <TempGauge value={18} />
@@ -103,7 +103,7 @@ export default function LiveData({ }) {
                       <div style={{ position: 'relative', left: '-6rem' }}>
                         <HumidityGauge value={lastEntry79f9[0].humidity} />
                       </div>
-                      <Typography fontWeight={800} variant="h5" align="center" >{parseFloat(lastEntry79f9[0].humidity).toFixed(1)} %</Typography>
+                      <Typography fontWeight={800} variant="h5" align="center" >{parseFloat(lastEntry79f9[0].humidity).toFixed(2)} %</Typography>
                     </>) : (<>
                       <div style={{ position: 'relative', left: '-6rem' }}>
                         <HumidityGauge value={30} />
@@ -153,7 +153,7 @@ export default function LiveData({ }) {
                       <div style={{ position: 'relative', left: '-5.4rem' }}>
                         <TempGauge value={lastEntry79fd[0].temprature} />
                       </div>
-                      <Typography fontWeight={800} variant="h5" align="center" >{parseFloat(lastEntry79fd[0].temprature).toFixed(1)} °C</Typography>
+                      <Typography fontWeight={800} variant="h5" align="center" >{parseFloat(lastEntry79fd[0].temprature).toFixed(2)} °C</Typography>
                     </>) : (<>
                       <div style={{ position: 'relative', left: '-5.4rem' }}>
                         <TempGauge value={18} />
@@ -170,7 +170,7 @@ export default function LiveData({ }) {
                       <div style={{ position: 'relative', left: '-6rem' }}>
                         <HumidityGauge value={lastEntry79fd[0].humidity} />
                       </div>
-                      <Typography fontWeight={800} variant="h5" align="center" >{parseFloat(lastEntry79fd[0].humidity).toFixed(1)} %</Typography>
+                      <Typography fontWeight={800} variant="h5" align="center" >{parseFloat(lastEntry79fd[0].humidity).toFixed(2)} %</Typography>
                     </>) : (<>
                       <div style={{ position: 'relative', left: '-6rem' }}>
                         <HumidityGauge value={30} />
@@ -220,7 +220,7 @@ export default function LiveData({ }) {
                       <div style={{ position: 'relative', left: '-5.4rem' }}>
                         <TempGauge value={lastEntry7a0e[0].temprature} />
                       </div>
-                      <Typography fontWeight={800} variant="h5" align="center" >{parseFloat(lastEntry7a0e[0].temprature).toFixed(1)} °C</Typography>
+                      <Typography fontWeight={800} variant="h5" align="center" >{parseFloat(lastEntry7a0e[0].temprature).toFixed(2)} °C</Typography>
                     </>) : (<>
                       <div style={{ position: 'relative', left: '-5.4rem' }}>
                         <TempGauge value={18} />
@@ -236,7 +236,7 @@ export default function LiveData({ }) {
                       <div style={{ position: 'relative', left: '-6rem' }}>
                         <HumidityGauge value={lastEntry7a0e[0].humidity} />
                       </div>
-                      <Typography fontWeight={800} variant="h5" align="center" >{parseFloat(lastEntry7a0e[0].humidity).toFixed(1)} %</Typography>
+                      <Typography fontWeight={800} variant="h5" align="center" >{parseFloat(lastEntry7a0e[0].humidity).toFixed(2)} %</Typography>
                     </>) : (<>
                       <div style={{ position: 'relative', left: '-6rem' }}>
                         <HumidityGauge value={30} />
@@ -286,7 +286,7 @@ export default function LiveData({ }) {
                       <div style={{ position: 'relative', left: '-5.4rem' }}>
                         <TempGauge value={lastEntry7a0a[0].temprature} />
                       </div>
-                      <Typography fontWeight={800} variant="h5" align="center" >{parseFloat(lastEntry7a0a[0].temprature).toFixed(1)} °C</Typography>
+                      <Typography fontWeight={800} variant="h5" align="center" >{parseFloat(lastEntry7a0a[0].temprature).toFixed(2)} °C</Typography>
                     </>) : (<>
                       <div style={{ position: 'relative', left: '-5.4rem' }}>
                         <TempGauge value={18} />
@@ -301,7 +301,7 @@ export default function LiveData({ }) {
                       <div style={{ position: 'relative', left: '-6rem' }}>
                         <HumidityGauge value={lastEntry7a0a[0].humidity} />
                       </div>
-                      <Typography fontWeight={800} variant="h5" align="center" >{parseFloat(lastEntry7a0a[0].humidity).toFixed(1)} %</Typography>
+                      <Typography fontWeight={800} variant="h5" align="center" >{parseFloat(lastEntry7a0a[0].humidity).toFixed(2)} %</Typography>
                     </>) : (<>
                       <div style={{ position: 'relative', left: '-6rem' }}>
                         <HumidityGauge value={30} />
@@ -348,7 +348,7 @@ export default function LiveData({ }) {
                       <div style={{ position: 'relative', left: '-5.4rem' }}>
                         <TempGauge value={lastEntry79fe[0].temprature} />
                       </div>
-                      <Typography fontWeight={800} variant="h5" align="center" >{parseFloat(lastEntry79fe[0].temprature).toFixed(1)} °C</Typography>
+                      <Typography fontWeight={800} variant="h5" align="center" >{parseFloat(lastEntry79fe[0].temprature).toFixed(2)} °C</Typography>
                     </>) : (<>
                       <div style={{ position: 'relative', left: '-5.4rem' }}>
                         <TempGauge value={18} />
@@ -364,7 +364,7 @@ export default function LiveData({ }) {
                       <div style={{ position: 'relative', left: '-6rem' }}>
                         <HumidityGauge value={lastEntry79fe[0].humidity} />
                       </div>
-                      <Typography fontWeight={800} variant="h5" align="center" >{parseFloat(lastEntry79fe[0].humidity).toFixed(1)} %</Typography>
+                      <Typography fontWeight={800} variant="h5" align="center" >{parseFloat(lastEntry79fe[0].humidity).toFixed(2)} %</Typography>
                     </>) : (<>
                       <div style={{ position: 'relative', left: '-6rem' }}>
                         <HumidityGauge value={30} />
@@ -413,7 +413,7 @@ export default function LiveData({ }) {
                       <div style={{ position: 'relative', left: '-5.4rem' }}>
                         <TempGauge value={lastEntry7a01[0].temprature} />
                       </div>
-                      <Typography fontWeight={800} variant="h5" align="center" >{parseFloat(lastEntry7a01[0].temprature).toFixed(1)} °C</Typography>
+                      <Typography fontWeight={800} variant="h5" align="center" >{parseFloat(lastEntry7a01[0].temprature).toFixed(2)} °C</Typography>
                     </>) : (<>
                       <div style={{ position: 'relative', left: '-5.4rem' }}>
                         <TempGauge value={18} />
@@ -429,7 +429,7 @@ export default function LiveData({ }) {
                       <div style={{ position: 'relative', left: '-6rem' }}>
                         <HumidityGauge value={lastEntry7a01[0].humidity} />
                       </div>
-                      <Typography fontWeight={800} variant="h5" align="center" >{parseFloat(lastEntry7a01[0].humidity).toFixed(1)} %</Typography>
+                      <Typography fontWeight={800} variant="h5" align="center" >{parseFloat(lastEntry7a01[0].humidity).toFixed(2)} %</Typography>
                     </>) : (<>
                       <div style={{ position: 'relative', left: '-6rem' }}>
                         <HumidityGauge value={30} />

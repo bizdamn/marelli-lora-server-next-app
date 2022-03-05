@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import Grid from "@mui/material/Grid";
-import moment from 'moment'
+import moment from 'moment';
 import * as dfd from "danfojs";
 import Entries from '../../models/Entries';
 import DeviceCalibration from '../../models/DeviceCalibration';
@@ -57,26 +57,25 @@ export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
   const [humAvgArray, setHumAvgArray] = useState([]);
 
 
-
-  function filterTempfunc(e) {
-    let temperatureArr = getTempHour(e.temprature, e.timestamp);
-    return temperatureArr
-  }
-  function getTempHour(temp, time) {
-    let hr = moment(time, "YYYY-MM-DDTHH:mm:ss").format("HH");
-    return { time: parseFloat(hr), temperature: parseFloat(temp) }
-  }
+  // function filterTempfunc(e) {
+  //   let temperatureArr = getTempHour(e.temprature, e.timestamp);
+  //   return temperatureArr
+  // }
+  // function getTempHour(temp, time) {
+  //   let hr = moment(time, "YYYY-MM-DDTHH:mm:ss").format("HH");
+  //   return { time: parseFloat(hr), temperature: parseFloat(temp) }
+  // }
 
   
 
-  function filterHumfunc(e) {
-    let humidityArr = getHumHour(e.humidity, e.timestamp);
-    return humidityArr
-  }
-  function getHumHour(hum, time) {
-    let hr = moment(time, "YYYY-MM-DDTHH:mm:ss").format("HH");
-    return { time: parseFloat(hr), humidity: parseFloat(hum) }
-  }
+  // function filterHumfunc(e) {
+  //   let humidityArr = getHumHour(e.humidity, e.timestamp);
+  //   return humidityArr
+  // }
+  // function getHumHour(hum, time) {
+  //   let hr = moment(time, "YYYY-MM-DDTHH:mm:ss").format("HH");
+  //   return { time: parseFloat(hr), humidity: parseFloat(hum) }
+  // }
 
 
   async function tempratureFilter() {
@@ -88,11 +87,19 @@ export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
         deviceEUI: id
       });
       console.log(data);
+      setTempMinArray(data.tempData.minArray)
+      setTempMaxArray(data.tempData.maxArray)
+      setTempAvgArray(data.tempData.avgArray)
+      setHumMinArray(data.humData.minArray)
+      setHumMaxArray(data.humData.maxArray)
+      setHumAvgArray(data.humData.avgArray)
 
+
+      enqueueSnackbar('Filtered', { variant: 'success' });
       // let tempArr =data.value.map(filterTempfunc);
       // let humArr = data.value.map(filterHumfunc);
-      await GetTempHourlyData(data.tempArr);
-      await GetHumHourlyData(data.humArr);
+      // await GetTempHourlyData(data.tempArr);
+      // await GetHumHourlyData(data.humArr);
 
     }
     catch (e) {
@@ -100,94 +107,98 @@ export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
     }
   }
 
-  async function GetTempHourlyData(e) {
-    let ret = [];
-    let hcounter = 0
-    for (; hcounter < 24; hcounter++) {
-      // console.log('hcounter ' + hcounter);
-      let hdata = [];
-      let hrdata = e.map(({ temperature, time }) => {
-        if (time == hcounter) {
-          hdata.push(temperature);
-        }
-        // console.log(hdata);
-        return hdata;
-      });
+  // async function GetTempHourlyData(e) {
+  //   let ret = [];
+  //   let hcounter = 0
+  //   let df = new dfd.DataFrame(e)
+  //   console.log(df)
+  //   for (; hcounter < 24; hcounter++) {
+  //     // console.log('hcounter ' + hcounter);
+  //     let hdata = [];
+  //     // let query_df = df.query({column: "time", is: "==", to: 0})
+  //     // console.log(query_df)
+  //     let hrdata = e.map(({ temperature, time }) => {
+  //       if (time == hcounter) {
+  //         hdata.push(temperature);
+  //       }
+  //       // console.log(hdata);
+  //       return hdata;
+  //     });
 
-      if (hrdata[hcounter].length <= 0) {
-        ret.push({
-          hour: hcounter, min: null,
-          max: null, avg: null
-        });
-        continue;
-      }
-      // console.log('hrdata[hcounter] = ' + hrdata[hcounter])
-      ret.push({
-        hour: hcounter, min: Math.min(...hrdata[hcounter]),
-        max: Math.max(...hrdata[hcounter]), avg: avg(hrdata[hcounter])
-      });
-      // console.log(hrdata);
-    }
-    ret.map((e) => {
-      setTempMinArray(oldArray => [...oldArray, e.min])
-      setTempMaxArray(oldArray => [...oldArray, e.max])
-      setTempAvgArray(oldArray => [...oldArray, e.avg])
-    })
-    enqueueSnackbar('Filtered', { variant: 'success' });
-    // console.log(tempMinArray)
-    // console.log(tempMaxArray)
-    // console.log(tempAvgArray)
-    return ret;
-  }
+  //     if (hrdata[hcounter].length <= 0) {
+  //       ret.push({
+  //         hour: hcounter, min: null,
+  //         max: null, avg: null
+  //       });
+  //       continue;
+  //     }
+  //     // console.log('hrdata[hcounter] = ' + hrdata[hcounter])
+  //     ret.push({
+  //       hour: hcounter, min: Math.min(...hrdata[hcounter]),
+  //       max: Math.max(...hrdata[hcounter]), avg: avg(hrdata[hcounter])
+  //     });
+  //     // console.log(hrdata);
+  //   }
+  //   ret.map((e) => {
+  //     setTempMinArray(oldArray => [...oldArray, e.min])
+  //     setTempMaxArray(oldArray => [...oldArray, e.max])
+  //     setTempAvgArray(oldArray => [...oldArray, e.avg])
+  //   })
+  //   enqueueSnackbar('Filtered', { variant: 'success' });
+  //   // console.log(tempMinArray)
+  //   // console.log(tempMaxArray)
+  //   // console.log(tempAvgArray)
+  //   return ret;
+  // }
 
-  async function GetHumHourlyData(e) {
-    let ret = [];
-    let hcounter = 0
-    for (; hcounter < 24; hcounter++) {
-      // console.log('hcounter ' + hcounter);
-      let hdata = [];
-      let hrdata = e.map(({ humidity, time }) => {
-        if (time == hcounter) {
-          hdata.push(humidity);
-        }
-        return hdata;
-      });
+  // async function GetHumHourlyData(e) {
+  //   let ret = [];
+  //   let hcounter = 0
+  //   for (; hcounter < 24; hcounter++) {
+  //     // console.log('hcounter ' + hcounter);
+  //     let hdata = [];
+  //     let hrdata = e.map(({ humidity, time }) => {
+  //       if (time == hcounter) {
+  //         hdata.push(humidity);
+  //       }
+  //       return hdata;
+  //     });
 
-      if (hrdata[hcounter].length <= 0) {
-        ret.push({
-          hour: hcounter, min: null,
-          max: null, avg: null
-        });
-        continue;
-      }
-      // console.log('hrdata[hcounter] = ' + hrdata[hcounter])
-      ret.push({
-        hour: hcounter, min: Math.min(...hrdata[hcounter]),
-        max: Math.max(...hrdata[hcounter]), avg: avg(hrdata[hcounter])
-      });
+  //     if (hrdata[hcounter].length <= 0) {
+  //       ret.push({
+  //         hour: hcounter, min: null,
+  //         max: null, avg: null
+  //       });
+  //       continue;
+  //     }
+  //     // console.log('hrdata[hcounter] = ' + hrdata[hcounter])
+  //     ret.push({
+  //       hour: hcounter, min: Math.min(...hrdata[hcounter]),
+  //       max: Math.max(...hrdata[hcounter]), avg: avg(hrdata[hcounter])
+  //     });
 
-    }
-    ret.map((e) => {
-      setHumMinArray(oldArray => [...oldArray, e.min])
-      setHumMaxArray(oldArray => [...oldArray, e.max])
-      setHumAvgArray(oldArray => [...oldArray, e.avg])
-    })
-    // console.log(humMinArray)
-    // console.log(humMaxArray)
-    // console.log(humAvgArray)
-    return ret;
-  }
-
-
+  //   }
+  //   ret.map((e) => {
+  //     setHumMinArray(oldArray => [...oldArray, e.min])
+  //     setHumMaxArray(oldArray => [...oldArray, e.max])
+  //     setHumAvgArray(oldArray => [...oldArray, e.avg])
+  //   })
+  //   // console.log(humMinArray)
+  //   // console.log(humMaxArray)
+  //   // console.log(humAvgArray)
+  //   return ret;
+  // }
 
 
-  function avg(arr) {
-    var sum = 0;
-    arr.forEach(function (item, idx) {
-      sum += item;
-    });
-    return sum / arr.length;
-  }
+
+
+  // function avg(arr) {
+  //   var sum = 0;
+  //   arr.forEach(function (item, idx) {
+  //     sum += item;
+  //   });
+  //   return sum / arr.length;
+  // }
 
   async function updateCallibration() {
     closeSnackbar();
