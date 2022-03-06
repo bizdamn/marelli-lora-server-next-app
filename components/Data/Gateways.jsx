@@ -18,7 +18,7 @@ export default function Gateways() {
         'Grpc-Metadata-Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5X2lkIjoiNTUyNzc0ZWEtMjJlNS00YzY1LWFhMjAtN2Y4NzU0Y2E5NjFkIiwiYXVkIjoiYXMiLCJpc3MiOiJhcyIsIm5iZiI6MTYzNzY1MTgwNSwic3ViIjoiYXBpX2tleSJ9._2OFZ7tfw6GYSbYk94M5RM17BwUGQB3IoGRZdqoGd_4'
       },
     };
-    fetch(`https://chirpstack.igscsi4server.com/api/gateways?limit=111&organizationID=${5}`, requestOptions)
+    fetch(`https://chirpstack.igscsi4server.com/api/gateways?limit=111&organizationID=${process.env.NEXT_PUBLIC_CHIRPSTACK_ORGANISATION_ID}`, requestOptions)
       .then(response => response.json())
       .then(data => setGateways({ result: data.result, totalCount: data.totalCount })).catch(function (error) {
         alert('Please Check your internet connection. Either their is no internet connection or the signals are weak');

@@ -18,7 +18,7 @@ export default function Devices() {
       },
     };
     fetch(
-      `https://chirpstack.igscsi4server.com/api/devices?limit=100000&applicationID=${4}`,
+      `https://chirpstack.igscsi4server.com/api/devices?limit=100000&applicationID=${process.env.NEXT_PUBLIC_CHIRPSTACK_APPLICATION_ID}`,
       requestOptions,
     )
       .then((response) => response.json())
