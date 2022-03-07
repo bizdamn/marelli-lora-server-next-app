@@ -1,7 +1,6 @@
 import axios from 'axios';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import NextLink from 'next/link';
 import Image from 'next/image';
 import React, { useEffect, useContext } from 'react';
 import {

@@ -1,5 +1,4 @@
 import React from "react";
-
 var LayoutStateContext = React.createContext();
 var LayoutDispatchContext = React.createContext();
 
@@ -14,9 +13,7 @@ function layoutReducer(state, action) {
 }
 
 function LayoutProvider({ children }) {
-  var [state, dispatch] = React.useReducer(layoutReducer, {
-    isSidebarOpened: false,
-  });
+  var [state, dispatch] = React.useReducer(layoutReducer, {isSidebarOpened: false});
   return (
     <LayoutStateContext.Provider value={state}>
       <LayoutDispatchContext.Provider value={dispatch}>

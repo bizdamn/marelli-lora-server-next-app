@@ -21,14 +21,12 @@ export default function Payload() {
         if (!userInfo) {
             router.push("/login");
         }
-
         async function fetch() {
             const { data } = await axios.get(`/api/getBuzzerStatus`);
             await setTempBuzzerStatus(data.FF01_I04_status);
             await setHumBuzzerStatus(data.FF01_I05_status);
         }
         fetch();
-
     }, [userInfo, router]);
 
 

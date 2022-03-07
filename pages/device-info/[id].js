@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import Grid from "@mui/material/Grid";
 import moment from 'moment';
+
 import * as dfd from "danfojs";
 import Entries from '../../models/Entries';
 import DeviceCalibration from '../../models/DeviceCalibration';
@@ -57,31 +58,26 @@ export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
   const [humAvgArray, setHumAvgArray] = useState([]);
 
 
-  // function filterTempfunc(e) {
-  //   let temperatureArr = getTempHour(e.temprature, e.timestamp);
-  //   return temperatureArr
-  // }
-  // function getTempHour(temp, time) {
-  //   let hr = moment(time, "YYYY-MM-DDTHH:mm:ss").format("HH");
-  //   return { time: parseFloat(hr), temperature: parseFloat(temp) }
-  // }
 
-  
+  const [ac1Array, setAC1Array] = useState([]);
+  const [ac2Array, setAC2Array] = useState([]);
+  const [ac3Array, setAC3Array] = useState([]);
+  const [ac4Array, setAC4Array] = useState([]);
+  const [humidifier1Array, setHumidifier1Array] = useState([]);
+  const [humidifier2Array, setHumidifier2Array] = useState([]);
+  const [humidifier3Array, setHumidifier3Array] = useState([]);
+  const [humidifier4Array, setHumidifier4Array] = useState([]);
+  const [chillar1Array, setChillar1Array] = useState([]);
+  const [chillar2Array, setChillar2Array] = useState([]);
+  const [chillar3Array, setChillar3Array] = useState([]);
+  const [chillar4Array, setChillar4Array] = useState([]);
 
-  // function filterHumfunc(e) {
-  //   let humidityArr = getHumHour(e.humidity, e.timestamp);
-  //   return humidityArr
-  // }
-  // function getHumHour(hum, time) {
-  //   let hr = moment(time, "YYYY-MM-DDTHH:mm:ss").format("HH");
-  //   return { time: parseFloat(hr), humidity: parseFloat(hum) }
-  // }
 
 
   async function tempratureFilter() {
     closeSnackbar()
     try {
-      const { data}  = await axios.post('https://temp-hum-chart-marelli.igscsi4server.com/', {
+      const { data } = await axios.post('https://temp-hum-chart-marelli.igscsi4server.com/', {
         start_date: startDate,
         end_date: endDate,
         deviceEUI: id
@@ -93,13 +89,22 @@ export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
       setHumMinArray(data.humData.minArray)
       setHumMaxArray(data.humData.maxArray)
       setHumAvgArray(data.humData.avgArray)
-
+      setHumAvgArray(data.humData.avgArray)
+      setAC1Array(data.AC1Data.mainArray)
+      setAC2Array(data.AC2Data.mainArray)
+      setAC3Array(data.AC3Data.mainArray)
+      setAC4Array(data.AC4Data.mainArray)
+      setHumidifier1Array(data.Humidifier1Data.mainArray)
+      setHumidifier2Array(data.Humidifier2Data.mainArray)
+      setHumidifier3Array(data.Humidifier3Data.mainArray)
+      setHumidifier4Array(data.Humidifier4Data.mainArray)
+      setChillar1Array(data.Chillar1Data.mainArray)
+      setChillar2Array(data.Chillar2Data.mainArray)
+      setChillar3Array(data.Chillar3Data.mainArray)
+      setChillar4Array(data.Chillar4Data.mainArray)
 
       enqueueSnackbar('Filtered', { variant: 'success' });
-      // let tempArr =data.value.map(filterTempfunc);
-      // let humArr = data.value.map(filterHumfunc);
-      // await GetTempHourlyData(data.tempArr);
-      // await GetHumHourlyData(data.humArr);
+
 
     }
     catch (e) {
@@ -107,98 +112,7 @@ export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
     }
   }
 
-  // async function GetTempHourlyData(e) {
-  //   let ret = [];
-  //   let hcounter = 0
-  //   let df = new dfd.DataFrame(e)
-  //   console.log(df)
-  //   for (; hcounter < 24; hcounter++) {
-  //     // console.log('hcounter ' + hcounter);
-  //     let hdata = [];
-  //     // let query_df = df.query({column: "time", is: "==", to: 0})
-  //     // console.log(query_df)
-  //     let hrdata = e.map(({ temperature, time }) => {
-  //       if (time == hcounter) {
-  //         hdata.push(temperature);
-  //       }
-  //       // console.log(hdata);
-  //       return hdata;
-  //     });
 
-  //     if (hrdata[hcounter].length <= 0) {
-  //       ret.push({
-  //         hour: hcounter, min: null,
-  //         max: null, avg: null
-  //       });
-  //       continue;
-  //     }
-  //     // console.log('hrdata[hcounter] = ' + hrdata[hcounter])
-  //     ret.push({
-  //       hour: hcounter, min: Math.min(...hrdata[hcounter]),
-  //       max: Math.max(...hrdata[hcounter]), avg: avg(hrdata[hcounter])
-  //     });
-  //     // console.log(hrdata);
-  //   }
-  //   ret.map((e) => {
-  //     setTempMinArray(oldArray => [...oldArray, e.min])
-  //     setTempMaxArray(oldArray => [...oldArray, e.max])
-  //     setTempAvgArray(oldArray => [...oldArray, e.avg])
-  //   })
-  //   enqueueSnackbar('Filtered', { variant: 'success' });
-  //   // console.log(tempMinArray)
-  //   // console.log(tempMaxArray)
-  //   // console.log(tempAvgArray)
-  //   return ret;
-  // }
-
-  // async function GetHumHourlyData(e) {
-  //   let ret = [];
-  //   let hcounter = 0
-  //   for (; hcounter < 24; hcounter++) {
-  //     // console.log('hcounter ' + hcounter);
-  //     let hdata = [];
-  //     let hrdata = e.map(({ humidity, time }) => {
-  //       if (time == hcounter) {
-  //         hdata.push(humidity);
-  //       }
-  //       return hdata;
-  //     });
-
-  //     if (hrdata[hcounter].length <= 0) {
-  //       ret.push({
-  //         hour: hcounter, min: null,
-  //         max: null, avg: null
-  //       });
-  //       continue;
-  //     }
-  //     // console.log('hrdata[hcounter] = ' + hrdata[hcounter])
-  //     ret.push({
-  //       hour: hcounter, min: Math.min(...hrdata[hcounter]),
-  //       max: Math.max(...hrdata[hcounter]), avg: avg(hrdata[hcounter])
-  //     });
-
-  //   }
-  //   ret.map((e) => {
-  //     setHumMinArray(oldArray => [...oldArray, e.min])
-  //     setHumMaxArray(oldArray => [...oldArray, e.max])
-  //     setHumAvgArray(oldArray => [...oldArray, e.avg])
-  //   })
-  //   // console.log(humMinArray)
-  //   // console.log(humMaxArray)
-  //   // console.log(humAvgArray)
-  //   return ret;
-  // }
-
-
-
-
-  // function avg(arr) {
-  //   var sum = 0;
-  //   arr.forEach(function (item, idx) {
-  //     sum += item;
-  //   });
-  //   return sum / arr.length;
-  // }
 
   async function updateCallibration() {
     closeSnackbar();
@@ -217,45 +131,111 @@ export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
 
 
   // TABLE DATA
-  const Humiditydata = {
-    labels: ["12 AM", "1 AM", "2 AM", "3 AM", "4 AM", "5 AM", "6 AM", "7 AM", "8 AM", "9 AM", "10 AM", "11 AM", "12 PM", "1PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM", "9 PM", "10 PM","11 PM"],
-    datasets: [
-      {
-        label: "Min Humidity",
-        data: humMinArray,
-        borderColor: [
-          "red",
-        ],
-        borderWidth: 1,
-      },
-      {
-        label: "Max Humidity",
-        data: humMaxArray,
-        borderWidth: 1,
-        borderColor: [
-          "blue",
-        ],
 
-      },
-      {
-        label: "Average Humidity",
-        data: humAvgArray,
-        borderWidth: 1,
-        borderColor: [
-          "black",
-        ],
-      },
-    ],
-  };
 
-  const Humidityoptions = {
-    scales: {},
-  };
 
 
   const Tempraturedata = {
-    labels: ["12 AM", "1 AM", "2 AM", "3 AM", "4 AM", "5 AM", "6 AM", "7 AM", "8 AM", "9 AM", "10 AM", "11 AM", "12 PM", "1PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM", "9 PM", "10 PM","11 PM"],
+    labels: ["12 AM", "1 AM", "2 AM", "3 AM", "4 AM", "5 AM", "6 AM", "7 AM", "8 AM", "9 AM", "10 AM", "11 AM", "12 PM", "1PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM", "9 PM", "10 PM", "11 PM"],
     datasets: [
+      {
+        label: "AC1",
+        data: ac1Array,
+        borderColor: [
+          "green",
+        ],
+        borderWidth: 1,
+      },
+      {
+        label: "AC2",
+        data: ac2Array,
+        borderColor: [
+          "green",
+        ],
+        borderWidth: 1,
+      },
+      {
+        label: "AC3",
+        data: ac3Array,
+        borderColor: [
+          "green",
+        ],
+        borderWidth: 1,
+      },
+      {
+        label: "AC4",
+        data: ac4Array,
+        borderColor: [
+          "green",
+        ],
+        borderWidth: 1,
+      },
+      {
+        label: "Humidifier1",
+        data: humidifier1Array,
+        borderColor: [
+          "green",
+        ],
+        borderWidth: 1,
+      },
+      {
+        label: "Humidifier2",
+        data: humidifier2Array,
+        borderColor: [
+          "green",
+        ],
+        borderWidth: 1,
+      },
+      {
+        label: "Humidifier3",
+        data: humidifier3Array,
+        borderColor: [
+          "green",
+        ],
+        borderWidth: 1,
+      },
+      {
+        label: "Humidifier4",
+        data: humidifier4Array,
+        borderColor: [
+          "green",
+        ],
+        borderWidth: 1,
+      },
+
+      {
+        label: "Chillar1",
+        data: chillar1Array,
+        borderColor: [
+          "green",
+        ],
+        borderWidth: 1,
+      },
+      {
+        label: "Chillar2",
+        data: chillar2Array,
+        borderColor: [
+          "green",
+        ],
+        borderWidth: 1,
+      },
+      {
+        label: "Chillar3",
+        data: chillar3Array,
+        borderColor: [
+          "green",
+        ],
+        borderWidth: 1,
+      },
+      {
+        label: "Chillar4",
+        data: chillar4Array,
+        borderColor: [
+          "green",
+        ],
+        borderWidth: 1,
+      },
+
       {
         label: "Min Temprature",
         data: tempMinArray,
@@ -284,10 +264,132 @@ export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
     ],
   };
 
-  const Tempratureoptions = {
-    scales: {},
-  };
+  const Humiditydata = {
+    labels: ["12 AM", "1 AM", "2 AM", "3 AM", "4 AM", "5 AM", "6 AM", "7 AM", "8 AM", "9 AM", "10 AM", "11 AM", "12 PM", "1PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM", "9 PM", "10 PM", "11 PM"],
+    datasets: [
+      {
+        label: "AC1",
+        data: ac1Array,
+        borderColor: [
+          "green",
+        ],
+        borderWidth: 1,
+      },
+      {
+        label: "AC2",
+        data: ac2Array,
+        borderColor: [
+          "green",
+        ],
+        borderWidth: 1,
+      },
+      {
+        label: "AC3",
+        data: ac3Array,
+        borderColor: [
+          "green",
+        ],
+        borderWidth: 1,
+      },
+      {
+        label: "AC4",
+        data: ac4Array,
+        borderColor: [
+          "green",
+        ],
+        borderWidth: 1,
+      },
+      {
+        label: "Humidifier1",
+        data: humidifier1Array,
+        borderColor: [
+          "green",
+        ],
+        borderWidth: 1,
+      },
+      {
+        label: "Humidifier2",
+        data: humidifier2Array,
+        borderColor: [
+          "green",
+        ],
+        borderWidth: 1,
+      },
+      {
+        label: "Humidifier3",
+        data: humidifier3Array,
+        borderColor: [
+          "green",
+        ],
+        borderWidth: 1,
+      },
+      {
+        label: "Humidifier4",
+        data: humidifier4Array,
+        borderColor: [
+          "green",
+        ],
+        borderWidth: 1,
+      },
+      {
+        label: "Chillar1",
+        data: chillar1Array,
+        borderColor: [
+          "green",
+        ],
+        borderWidth: 1,
+      },
+      {
+        label: "Chillar2",
+        data: chillar2Array,
+        borderColor: [
+          "green",
+        ],
+        borderWidth: 1,
+      },
+      {
+        label: "Chillar3",
+        data: chillar3Array,
+        borderColor: [
+          "green",
+        ],
+        borderWidth: 1,
+      },
+      {
+        label: "Chillar4",
+        data: chillar4Array,
+        borderColor: [
+          "green",
+        ],
+        borderWidth: 1,
+      },
+      {
+        label: "Min Humidity",
+        data: humMinArray,
+        borderColor: [
+          "red",
+        ],
+        borderWidth: 1,
+      },
+      {
+        label: "Max Humidity",
+        data: humMaxArray,
+        borderWidth: 1,
+        borderColor: [
+          "blue",
+        ],
 
+      },
+      {
+        label: "Average Humidity",
+        data: humAvgArray,
+        borderWidth: 1,
+        borderColor: [
+          "black",
+        ],
+      },
+    ],
+  };
 
   return (
     <Layout>
@@ -340,7 +442,6 @@ export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
                       <Line
                         height={150}
                         data={Tempraturedata}
-                        options={Tempratureoptions}
                       />
                     </div>
                   </>
@@ -366,7 +467,6 @@ export default function DevicePage({ tempArray, humArray, deviceCalibration }) {
                       <Line
                         height={150}
                         data={Humiditydata}
-                        options={Humidityoptions}
                       />
                     </div>
                   </>

@@ -32,7 +32,7 @@ export default function Payload({entries}) {
               var date = new Date(element.timestamp);
               var formattted_time= date.toLocaleString()
             return (
-              <tr key={element.deviceName} >
+              <tr key={element.timestamp} >
                 <td>{element.deviceName}</td>
                 <td>{element.devEUI}</td>
                 <td>{parseFloat(element.humidity).toFixed(2)}</td>

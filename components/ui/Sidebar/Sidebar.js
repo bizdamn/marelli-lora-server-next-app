@@ -9,6 +9,7 @@ import TouchAppSharpIcon from '@mui/icons-material/TouchAppSharp';
 import SensorsSharpIcon from '@mui/icons-material/SensorsSharp';
 import CellTowerSharpIcon from '@mui/icons-material/CellTowerSharp';
 import DataObjectIcon from '@mui/icons-material/DataObject';
+import AddTaskIcon from '@mui/icons-material/AddTask';
 import { useTheme } from "@material-ui/styles";
 import classNames from "classnames";
 // styles
@@ -16,6 +17,7 @@ import useStyles from "./styles";
 // components
 import SidebarLink from "./components/SidebarLink/SidebarLink";
 import Dot from "./components/Dot";
+import AccountTreeIcon from '@mui/icons-material/AccountTree';
 
 // context
 import {
@@ -30,8 +32,10 @@ const structure = [
   { id: 2, label: 'Gateways', link: '/gateways', icon: <CellTowerSharpIcon /> },
   { id: 3, type: 'divider' },
   { id: 4, type: "title", label: "Details" },
-  { id: 7, label: "All Data", link: "/payload", icon: <StorageSharpIcon /> },
-  { id: 5, label: "Give Payload", link: "/commands", icon: <TouchAppSharpIcon /> },
+  { id: 7, label: "All Data", link: "/data", icon: <StorageSharpIcon /> },
+  { id: 5, label: "Give Payload", link: "/buzzer-command", icon: <TouchAppSharpIcon /> },
+  { id: 6, label: "AHC Status", link: "/ahc-status", icon: <AccountTreeIcon /> },
+  { id: 6, label: "Device Compare", link: "/devices-compare", icon: <AddTaskIcon /> },
   { id: 8, type: "divider" },
 ];
 
